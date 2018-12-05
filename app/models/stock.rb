@@ -1,4 +1,6 @@
 class Stock < ActiveRecord::Base
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
   
   def self.new_stock_lookup(ticker_symbol)
     begin
@@ -7,6 +9,10 @@ class Stock < ActiveRecord::Base
     rescue Exception => e
       return nil
     end
+  end
+  
+  def self.find_by_ticker(ticker_symbol)
+    where(ticker: ticker_symbol).first
   end
   
 end
