@@ -51,4 +51,12 @@ has_many :friends, through: :friendships
   def self.matches(field, value)
     where("#{field} like ?", "%#{value}%")
   end
+  
+  def except_current_user(users)
+    users.reject { |user| user.id == self.id }
+  end 
+  
+  def not_friends_with?(friend_id)
+    friendships.where(friend_id: friend_id).count < 1
+  end
 end
